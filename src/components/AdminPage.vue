@@ -12,7 +12,7 @@
     </div>
   
       <AdminMaterials :apiUrl="'http://localhost:3000/api/materials'" />
-      <ProjectList :apiUrl="'http://localhost:3000/api/practice'" />
+      <AdminProjList :apiUrl="'http://localhost:3000/api/projects'" />
       <AdminUsers :apiUrl="'http://localhost:3000/api/users'" />
   
       
@@ -21,13 +21,13 @@
   <script>
   import AdminMaterials from './AdminMaterials.vue';
   import AdminUsers from './AdminUsers.vue';
-  import ProjectList from './ProjectList.vue';
+  import AdminProjList from './AdminProjList.vue';
   import axios from 'axios';
   
   export default {
     components: {
     AdminMaterials,
-      ProjectList,
+    AdminProjList,
       AdminUsers,
     },
     data() {

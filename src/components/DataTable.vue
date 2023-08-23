@@ -1,6 +1,6 @@
 <template>
   <div class="Mats-table">
-    <h2>Materials Table</h2>
+    <h2></h2>
     <table>
       <thead>
         <tr>

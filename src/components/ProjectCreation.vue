@@ -1,39 +1,39 @@
 <template>
-    <div class="subtract-form">
-      <h2 class="title">Create Project</h2>
-  
-      <!-- Project Name Input -->
-      <div class="form-group">
-        <label for="ProjectName" class="label">Project Name:</label>
-        <input type="text" v-model="ProjectName" class="input" placeholder="Enter Project Name">
-      </div>
-  
-      <!-- Item Selection and Amount Inputs -->
-      <div v-for="(item, index) in selectedItems" :key="index" class="form-group">
-        <label :for="`itemName${index}`" class="label">Select Item {{ index + 1 }}:</label>
-        <select v-model="selectedItems[index]" class="select">
-          <option value="" disabled>Select Item</option>
-          <option v-for="item in items" :value="item.ItemName" :key="item.id">{{ item.ItemName }}</option>
-        </select>
-        <input type="number" v-model="subtractAmounts[index]" class="input" placeholder="Amount">
-        <span class="item-price" v-if="selectedItems[index]">{{ getItemPrice(selectedItems[index]) }}</span>
-      </div>
-  
-      <!-- Display calculated max price -->
-      <div v-if="calculatedMaxPrice > 0" class="form-group">
-        <label class="label">Calculated Max Price:</label>
-        <span class="max-price">{{ calculatedMaxPrice }}</span>
-      </div>
-  
-      <!-- Textarea for additional notes -->
-      <div class="form-group">
-        <label for="additionalNotes" class="label">Additional Notes:</label>
-        <textarea v-model="additionalNotes" class="textarea" placeholder="Enter additional notes"></textarea>
-      </div>
-  
-      <button @click="createProjectAndSubtract" class="btn">Save Project</button>
+  <div class="subtract-form">
+    <h2 class="title">Create Project</h2>
+
+    <!-- Project Name Input -->
+    <div class="form-group">
+      <label for="ProjectName" class="label">Project Name:</label>
+      <input type="text" v-model="ProjectName" class="input" placeholder="Enter Project Name">
     </div>
-  </template>
+
+    <!-- Item Selection and Amount Inputs -->
+    <div v-for="(item, index) in selectedItems" :key="index" class="form-group">
+      <label :for="`itemName${index}`" class="label">Select Item {{ index + 1 }}:</label>
+      <select v-model="selectedItems[index]" class="select">
+        <option value="" disabled>Select Item</option>
+        <option v-for="item in items" :value="item.ItemName" :key="item.id">{{ item.ItemName }}</option>
+      </select>
+      <input type="number" v-model="subtractAmounts[index]" class="input" placeholder="Amount">
+      <span class="item-price" v-if="selectedItems[index]">$ {{ getItemPrice(selectedItems[index]) }}</span>
+    </div>
+
+    <!-- Display calculated max price -->
+    <div v-if="calculatedMaxPrice > 0" class="form-group">
+      <label class="label">Calculated Max Price:</label>
+      <span class="max-price">$ {{ calculatedMaxPrice }}</span>
+    </div>
+
+    <!-- Textarea for additional notes -->
+    <div class="form-group">
+      <label for="additionalNotes" class="label">Additional Notes:</label>
+      <textarea v-model="additionalNotes" class="textarea" placeholder="Enter additional notes"></textarea>
+    </div>
+
+    <button @click="createProjectAndSubtract" class="btn">Save Project</button>
+  </div>
+</template>
   
   <script>
   import axios from 'axios';

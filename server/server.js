@@ -9,10 +9,10 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'inventorysys'
+  host: 'sql9.freesqldatabase.com',
+  user: 'sql9641888',
+  password: 'g4PCgiumFE',
+  database: 'sql9641888'
 });
 
 db.connect(err => {
@@ -24,7 +24,7 @@ db.connect(err => {
 });
 
 
-//data table
+//get data from table
 app.get('/api/materials', (req, res) => {
   const sql = 'SELECT * FROM materials';
 
@@ -35,6 +35,23 @@ app.get('/api/materials', (req, res) => {
       return;
     }
     res.json(result);
+  });
+});
+
+//edit datatable /admintable
+
+app.put('/api/materials/:id', (req, res) => {
+  const id = req.params.id;
+  const { ItemName, Price, Amount } = req.body;
+  const sql = 'UPDATE materials SET ItemName=?, Price=?, Amount=? WHERE id=?';
+
+  db.query(sql, [ItemName, Price, Amount, id], (err, result) => {
+    if (err) {
+      console.error('Error updating material:', err);
+      res.status(500).send('Error updating material');
+      return;
+    }
+    res.sendStatus(200);
   });
 });
 
@@ -115,6 +132,8 @@ app.post('/api/projects', async (req, res) => {
     res.status(500).json({ message: 'Error creating project' });
   }
 });
+
+
 //editing datatable
 
 //admin users table
@@ -168,6 +187,24 @@ app.post('/api/materials', (req, res) => {
     }
     console.log('Material added/updated:', result);
     res.status(201).json({ message: 'Material added/updated successfully' });
+  });
+});
+
+// edit 3ts /admin project list
+
+app.put('/api/projects/:id', (req, res) => {
+  const { id } = req.params;
+  const { ProjectName, Text } = req.body;
+
+  const sql = 'UPDATE projects SET ProjectName = ?, Text = ? WHERE id = ?';
+
+  db.query(sql, [ProjectName, Text, id], (err, result) => {
+    if (err) {
+      console.error('Error updating project:', err);
+      res.status(500).send('Error updating project');
+      return;
+    }
+    res.status(200).send('Project updated successfully');
   });
 });
 
@@ -306,27 +343,6 @@ app.post('/api/login', (req, res) => {
   });
 });
 
-app.put('/api/materials/:id', (req, res) => {
-  const materialId = req.params.id;
-  const newAmount = req.body.amount;
-
-  if (!materialId || !newAmount) {
-    return res.status(400).json({ message: 'Invalid data' });
-  }
-
-  const sql = 'UPDATE materials SET Amount = ? WHERE id = ?';
-  const values = [newAmount, materialId];
-
-  db.query(sql, values, (err, result) => {
-    if (err) {
-      console.error('Error updating amount:', err);
-      return res.status(500).json({ message: 'Error updating amount' });
-    }
-    console.log('Amount updated:', result);
-    res.status(200).json({ message: 'Amount updated successfully' });
-  });
-});
-
 //admin users editable
 
 app.put('/api/materials/:id', (req, res) => {
@@ -350,6 +366,23 @@ app.put('/api/materials/:id', (req, res) => {
   });
 });
 
+//admin edit usernames and paswords
+
+app.put('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const { username, password } = req.body;
+
+  const sql = 'UPDATE users SET username = ?, password = ? WHERE id = ?';
+
+  db.query(sql, [username, password, id], (err, result) => {
+    if (err) {
+      console.error('Error updating user:', err);
+      res.status(500).send('Error updating user');
+      return;
+    }
+    res.sendStatus(200);
+  });
+});
 
 
 app.listen(port, () => {

@@ -1,12 +1,13 @@
 <template>
   <div class="Projects-table">
-    <h2>Projects</h2>
+    <h2></h2>
     <table>
       <thead>
         <tr>
           <th class="id">ID</th>
           <th class="proj">Project Name</th>
           <th class="mats">Project Details</th>
+          <th class="Total">Total Cost</th>
         </tr>
       </thead>
       <tbody>
@@ -14,6 +15,7 @@
           <td>{{ project.id }}</td>
           <td>{{ project.ProjectName }}</td>
           <td v-html="formatProjectDetails(project.Text)"></td>
+          <td v-html="formatProject(project.Text)"></td>
         </tr>
       </tbody>
     </table>
@@ -43,10 +45,21 @@ export default {
     },
     formatProjectDetails(text) {
       // Remove (0) from project details and make "Project Cost $" bold
-      return text.replace(/\s*\(0\)/g, '').replace('Project Cost $:', '<strong>Project Cost $:</strong>')
-      .replace('Additional Notes:', '<br><br><strong>Additional Notes:</strong>')
+      return text.replace(/\s*\(0\)/g, '').replace('Project Cost $:', '')
+      .replace('Additional Notes:', '<br><br><strong>Additional Notes:</strong>');
+    },
+    formatProject(totalCost) {
+      // Display the extracted number from "(Project Cost $: X)"
+  
+      const regex = /\(Project Cost \$: (\d+)\)/;
+      const match = totalCost.match(regex);
+      if (match) {
+        return `$${match[1]}`;
+      }
+      return '';
     }
-  }
+  
+}
 };
 </script>
 
